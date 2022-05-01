@@ -3,6 +3,7 @@ ext {
     androidxAppCompatVersion = project.hasProperty('androidxAppCompatVersion') ? rootProject.ext.androidxAppCompatVersion : '1.2.0'
     androidxJunitVersion = project.hasProperty('androidxJunitVersion') ? rootProject.ext.androidxJunitVersion : '1.1.2'
     androidxEspressoCoreVersion = project.hasProperty('androidxEspressoCoreVersion') ? rootProject.ext.androidxEspressoCoreVersion : '3.3.0'
+    marketingCloudSDKVersion = project.hasProperty('marketingCloudSDKVersion') ? rootProject.ext.marketingCloudSDKVersion : '8.0+'
 }
 
 buildscript {
@@ -45,13 +46,14 @@ repositories {
     google()
     mavenCentral()
     jcenter()
+    maven { url 'https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/repository' }
 }
-
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':capacitor-android')
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
+    implementation "com.salesforce.marketingcloud:marketingcloudsdk:$marketingCloudSDKVersion"
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
