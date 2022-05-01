@@ -42,7 +42,7 @@
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",
     "prepublishOnly": "npm run build",
-    "release": "npm version patch -m \"Bumped version %s [ci skip]\" && npm publish --access public && git push && git push --tags"
+    "release": "npm version patch -m \"Bumped version %s [ci skip]\" && && git push && git push --tags && npm publish --access public"
   },
   "devDependencies": {
     "@capacitor/android": "^3.5.0",
