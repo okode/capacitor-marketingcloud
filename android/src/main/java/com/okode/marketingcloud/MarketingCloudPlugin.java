@@ -9,7 +9,7 @@ import com.getcapacitor.annotation.CapacitorPlugin;
 @CapacitorPlugin(name = "MarketingCloud")
 public class MarketingCloudPlugin extends Plugin {
 
-    private MarketingCloud implementation = new MarketingCloud();
+    private final MarketingCloud implementation = new MarketingCloud();
 
     @PluginMethod
     public void echo(PluginCall call) {
@@ -19,4 +19,14 @@ public class MarketingCloudPlugin extends Plugin {
         ret.put("value", implementation.echo(value));
         call.resolve(ret);
     }
+
+    @PluginMethod
+    public void initialize(PluginCall call) {
+        final String appId = call.getString("appId");
+        final String accessToken = call.getString("accessToken");
+        final String serverUrl = call.getString("serverUrl");
+
+        implementation.initialize(getBridge().getContext(), call, appId, accessToken, serverUrl);
+    }
+
 }
