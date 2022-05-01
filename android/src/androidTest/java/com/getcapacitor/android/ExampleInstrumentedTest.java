@@ -20,7 +20,7 @@ public class ExampleInstrumentedTest {
     public void useAppContext() throws Exception {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-
-        assertEquals("com.getcapacitor.android", appContext.getPackageName());
+        String packageName = appContext.getPackageName();
+        assertEquals("com.okode.marketingcloud.test", appContext.getPackageName());
     }
 }

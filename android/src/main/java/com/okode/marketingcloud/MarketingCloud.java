@@ -24,13 +24,12 @@ public class MarketingCloud {
 
         SFMCSdkModuleConfig config = SFMCSdkModuleConfig.build(builder -> {
             int notificationIconResourceId = context.getResources().getIdentifier("ic_notification_icon", "drawable", context.getPackageName());
-            builder.setPushModuleConfig(
-                MarketingCloudConfig.builder()
-                .setApplicationId(appId)
-                .setAccessToken(accessToken)
-                .setMarketingCloudServerUrl(serverUrl)
-                .setNotificationCustomizationOptions(NotificationCustomizationOptions.create(notificationIconResourceId))
-                .build(context)
+            builder.setPushModuleConfig(MarketingCloudConfig.builder()
+                    .setApplicationId(appId)
+                    .setAccessToken(accessToken)
+                    .setMarketingCloudServerUrl(serverUrl)
+                    .setNotificationCustomizationOptions(NotificationCustomizationOptions.create(notificationIconResourceId))
+                    .build(context)
             );
             return Unit.INSTANCE;
         });

@@ -9,7 +9,7 @@ ext {
 buildscript {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.2.1'
@@ -21,7 +21,7 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion project.hasProperty('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 30
     defaultConfig {
-        minSdkVersion project.hasProperty('minSdkVersion') ? rootProject.ext.minSdkVersion : 21
+        minSdkVersion project.hasProperty('minSdkVersion') ? rootProject.ext.minSdkVersion : 22
         targetSdkVersion project.hasProperty('targetSdkVersion') ? rootProject.ext.targetSdkVersion : 30
         versionCode 1
         versionName "1.0"
@@ -45,7 +45,6 @@ android {
 repositories {
     google()
     mavenCentral()
-    jcenter()
     maven { url 'https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/repository' }
 }
 
