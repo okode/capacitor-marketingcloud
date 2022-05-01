@@ -1,0 +1,1 @@
+{"version":3,"file":"definitions.js","sourceRoot":"","sources":["../../src/definitions.ts"],"names":[],"mappings":"","sourcesContent":["export interface MarketingCloudPlugin {\n  echo(options: { value: string }): Promise<{ value: string }>;\n  initialize(options: { appId: string, accessToken: string, serverUrl: string }): Promise<{ success: boolean }>\n}\n"]}
