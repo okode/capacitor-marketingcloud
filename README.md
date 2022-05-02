@@ -7,7 +7,7 @@ MarketingCloud Capacitor Plugin
 ## Install
 
 ```bash
-npm install okode/capacitor-marketingcloud
+npm install @okode/capacitor-marketingcloud
 npx cap sync
 ```
 
