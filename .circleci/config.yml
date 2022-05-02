@@ -29,6 +29,7 @@ jobs:
 # iOS testing command
 # https://www.appsdeveloperblog.com/run-xcode-unit-tests-from-the-command-line/
 # xcodebuild build-for-testing -workspace Plugin.xcworkspace -scheme PluginTests -destination 'platform=iOS Simulator,name=iPhone 13 Pro,OS=15.4'
+# xcodebuild test -workspace Plugin.xcworkspace -scheme PluginTests -destination 'platform=iOS Simulator,name=iPhone 13 Pro,OS=15.4'
 
 workflows:
   default:
