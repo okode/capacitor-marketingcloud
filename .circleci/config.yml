@@ -1,0 +1,22 @@
+version: 2.1
+
+shared: &shared
+  context: org-global
+
+orbs:
+  android: circleci/android@2
+
+jobs:
+  android:
+    executor:
+      name: android/android-docker
+      tag: 2022.04-node
+    steps:
+      - checkout
+
+workflows:
+  default:
+    jobs:
+      - android:
+          <<: *shared
+          name: android
