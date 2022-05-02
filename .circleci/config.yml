@@ -10,9 +10,8 @@ orbs:
 jobs:
   android:
     executor:
-    executor:
       name: android/android-machine
-      tag: 
+      tag: 202102-01
     steps:
       - checkout
       - node/install-packages
