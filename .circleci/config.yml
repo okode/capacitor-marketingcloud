@@ -26,6 +26,9 @@ jobs:
           working-directory: android
       - android/kill-emulators
 
+# iOS testing command
+# xcodebuild build-for-testing -workspace Plugin.xcworkspace -scheme PluginTests -destination 'platform=iOS Simulator,name=iPhone 13 Pro,OS=15.4'
+
 workflows:
   default:
     jobs:
