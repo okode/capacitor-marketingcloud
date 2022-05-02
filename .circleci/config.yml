@@ -5,6 +5,7 @@ shared: &shared
 
 orbs:
   android: circleci/android@2
+  node: circleci/node@5
 
 jobs:
   android:
@@ -13,6 +14,17 @@ jobs:
       tag: 2022.04-node
     steps:
       - checkout
+      - node/install-packages
+      - android/create-avd:
+          avd-name: test
+          install: true
+          system-image: "system-images;android-32;google_apis;x86_64"
+      - android/start-emulator:
+          avd-name: test
+          post-emulator-launch-assemble-command: ""
+      - android/run-tests:
+          working-directory: android
+      - android/kill-emulators
 
 workflows:
   default:
