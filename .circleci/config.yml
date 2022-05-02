@@ -31,10 +31,15 @@ jobs:
     steps:
       - checkout
       - node/install-packages
-      - run: |
-          cd ios
-          xcodebuild build-for-testing -workspace Plugin.xcworkspace -scheme PluginTests -destination 'platform=iOS Simulator,name=iPhone 13 Pro,OS=15.4'
-          xcodebuild test -workspace Plugin.xcworkspace -scheme PluginTests -destination 'platform=iOS Simulator,name=iPhone 13 Pro,OS=15.4'
+      - run:
+          name: Cocoapods install
+          command: cd ios && pod install
+      - run:
+          name: Testing iOS
+          command: |
+            cd ios
+            xcodebuild build-for-testing -workspace Plugin.xcworkspace -scheme PluginTests -destination 'platform=iOS Simulator,name=iPhone 13 Pro,OS=15.4'
+            xcodebuild test -workspace Plugin.xcworkspace -scheme PluginTests -destination 'platform=iOS Simulator,name=iPhone 13 Pro,OS=15.4'
 
 workflows:
   default:
