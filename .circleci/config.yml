@@ -10,15 +10,16 @@ orbs:
 jobs:
   android:
     executor:
-      name: android/android-docker
-      tag: 2022.04-node
+    executor:
+      name: android/android-machine
+      tag: 
     steps:
       - checkout
       - node/install-packages
       - android/create-avd:
           avd-name: test
           install: true
-          system-image: "system-images;android-31;default;x86_64"
+          system-image: "system-images;android-29;default;x86"
       - android/start-emulator:
           avd-name: test
           post-emulator-launch-assemble-command: ""
