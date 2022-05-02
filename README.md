@@ -2,6 +2,8 @@
 
 MarketingCloud Capacitor Plugin
 
+[![CircleCI](https://circleci.com/gh/okode/capacitor-marketingcloud/tree/main.svg?style=svg)](https://circleci.com/gh/okode/capacitor-marketingcloud/tree/main)
+
 ## Install
 
 ```bash
