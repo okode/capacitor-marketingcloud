@@ -1,16 +1,31 @@
 import { WebPlugin } from '@capacitor/core';
+
 import type { MarketingCloudPlugin } from './definitions';
 
 export class MarketingCloudWeb extends WebPlugin implements MarketingCloudPlugin {
 
-  async echo(options: { value: string }) {
-    console.log('ECHO', options);
-    return Promise.resolve<{ value: string }>(options);
+  initialize(_options: { appId: string; accessToken: string; serverUrl: string; enableAnalytics?: boolean | undefined; }): Promise<void> {
+    return Promise.reject('Method not implemented.');
   }
 
-  async initialize(_: { appId: string, accessToken: string, serverUrl: string }) {
-    console.warn('MarketingCloudWeb initialize not implemented');
-    return Promise.resolve<{ success: boolean }>({ success: false });
+  enablePush(_opts: { token: string; }): void {
+    throw new Error('Method not implemented.');
+  }
+
+  disablePush(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  setProfileId(_opts: { value: string; }): void {
+    throw new Error('Method not implemented.');
+  }
+
+  isMarketingCloudNotification(_opts: { notification: any; }): Promise<{ value: boolean; }> {
+    return Promise.reject('Method not implemented.');
+  }
+
+  notifyNotificationOpened(_opts: { notification: any; }): void {
+    throw new Error('Method not implemented.');
   }
 
 }

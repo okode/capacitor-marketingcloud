@@ -1,4 +1,10 @@
 export interface MarketingCloudPlugin {
-  echo(options: { value: string }): Promise<{ value: string }>;
-  initialize(options: { appId: string, accessToken: string, serverUrl: string }): Promise<{ success: boolean }>
+  initialize(options: {
+    appId: string; accessToken: string; serverUrl: string; enableAnalytics?: boolean;
+  }): Promise<void>;
+  enablePush(opts: { token: string }): void;
+  disablePush(): void;
+  setProfileId(opts: { value: string }): void;
+  isMarketingCloudNotification(opts: { notification: any }): Promise<{ value: boolean }>;
+  notifyNotificationOpened(opts: { notification: any }): void;
 }
