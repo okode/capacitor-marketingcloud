@@ -12,6 +12,7 @@ import com.salesforce.marketingcloud.notifications.NotificationManager
 import com.salesforce.marketingcloud.notifications.NotificationMessage
 import java.util.*
 
+
 data class MarketingCloudSdkConfig(val appId: String,
                                    val accessToken: String,
                                    val serverUrl: String,
@@ -21,6 +22,13 @@ data class MarketingCloudSdkConfig(val appId: String,
         const val DEFAULT_NOTIFICATION_CHANNEL_RES_NAME = "mcsdk_default_notification_channel_id"
         const val NOTIFICATION_ICON_RES_NAME = "ic_notification_icon"
         const val NOTIFICATION_MSG_EXTRA = "mcsdk_notification_message_extra"
+
+        fun extractNotificationMessage(intent: Intent?): NotificationMessage? {
+            if (intent == null) { return null }
+            return if (intent.hasExtra(NOTIFICATION_MSG_EXTRA)) {
+                intent.getParcelableExtra(NOTIFICATION_MSG_EXTRA)
+            } else NotificationManager.extractMessage(intent)
+        }
 
         private fun getNotificationCustomizationOptions(): NotificationCustomizationOptions {
             return NotificationCustomizationOptions.create { context, notificationMessage ->
@@ -99,6 +107,8 @@ data class MarketingCloudSdkConfig(val appId: String,
             )
             return if (resId != 0) context.getString(resId) else null
         }
+
+
     }
 
 

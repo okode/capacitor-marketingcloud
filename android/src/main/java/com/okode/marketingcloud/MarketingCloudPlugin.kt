@@ -1,16 +1,24 @@
 package com.okode.marketingcloud
 
+import android.content.Intent
 import com.getcapacitor.JSObject
 import com.getcapacitor.annotation.CapacitorPlugin
 import com.getcapacitor.PluginMethod
 import com.getcapacitor.PluginCall
 import com.getcapacitor.Plugin
+import com.salesforce.marketingcloud.notifications.NotificationMessage
 import com.salesforce.marketingcloud.sfmcsdk.InitializationStatus
+import org.json.JSONObject
 
 @CapacitorPlugin(name = "MarketingCloud")
 class MarketingCloudPlugin : Plugin() {
 
     private val implementation = MarketingCloud()
+
+    override fun handleOnNewIntent(intent: Intent?) {
+        super.handleOnNewIntent(intent)
+        handleNotificationOpened(MarketingCloudSdkConfig.extractNotificationMessage(intent))
+    }
 
     @PluginMethod
     fun initialize(call: PluginCall) {
@@ -60,6 +68,23 @@ class MarketingCloudPlugin : Plugin() {
         MarketingCloud.handleNotification(notification) {
             call.resolve(JSObject().put("value", it))
         }
+    }
+
+    private fun handleNotificationOpened(notification: NotificationMessage?) {
+        if (notification == null) { return }
+        val values = JSObject.fromJSONObject(JSONObject(notification.payload))
+        notification.url?.let { values.put("url", it) }
+        val notificationType = when(notification.type) {
+            NotificationMessage.Type.OTHER -> "other"
+            NotificationMessage.Type.CLOUD_PAGE -> "cloudPage"
+            NotificationMessage.Type.OPEN_DIRECT -> "openDirect"
+        }
+        values.put("type", notificationType)
+        val event = JSObject()
+                .put("timestamp", System.currentTimeMillis())
+                .put("values", values)
+                .put("action", "tap")
+        notifyListeners("notificationOpened", event, true)
     }
 
 }
