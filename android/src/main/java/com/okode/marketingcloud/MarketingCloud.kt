@@ -1,0 +1,83 @@
+package com.okode.marketingcloud
+
+import android.content.Context
+import android.util.Log
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.salesforce.marketingcloud.messages.push.PushMessageManager
+import com.salesforce.marketingcloud.sfmcsdk.SFMCSdk
+import com.salesforce.marketingcloud.sfmcsdk.SFMCSdkModuleConfig
+import org.json.JSONObject
+import java.io.IOException
+
+class MarketingCloud {
+
+    companion object {
+
+        private val MAPPER = ObjectMapper()
+
+        fun initialize(context: Context,
+                       appId: String,
+                       accessToken: String,
+                       serverUrl: String,
+                       enableAnalytics: Boolean?,
+                       listener: com.salesforce.marketingcloud.sfmcsdk.InitializationListener?) {
+            SFMCSdk.configure(context, SFMCSdkModuleConfig.build {
+                pushModuleConfig = MarketingCloudSdkConfig(
+                        appId, accessToken, serverUrl, enableAnalytics).build(context)
+            }, listener)
+        }
+
+        fun isMarketingCloudNotification(notification: JSONObject): Boolean {
+            val notification = parseNotificationAsJSONObj(notification)
+            return if (notification != null) isMarketingCloudNotification(notification) else false
+        }
+
+        fun isMarketingCloudNotification(notification: Map<String, String>): Boolean {
+            return PushMessageManager.isMarketingCloudPush(notification)
+        }
+
+        fun handleNotification(notification: JSONObject, listener: (success: Boolean) -> Unit) {
+            val notification = parseNotificationAsJSONObj(notification)
+            if (notification != null) {
+                handleNotification(notification, listener)
+            } else {
+                listener(false)
+            }
+        }
+
+        fun handleNotification(notification: Map<String, String>,
+                               listener: (success: Boolean) -> Unit) {
+            SFMCSdk.requestSdk {
+                it.mp { mp -> listener(mp.pushMessageManager.handleMessage(notification)) }
+            }
+        }
+
+        private fun parseNotificationAsJSONObj(notification: JSONObject): Map<String, String>? {
+            return try {
+                MAPPER.readValue(notification.toString(),
+                        object : TypeReference<Map<String, String>>() {})
+            } catch (e: IOException) {
+                Log.e(javaClass.name, "Error parsing notification")
+                null
+            }
+        }
+    }
+
+    fun enablePush() {
+        SFMCSdk.requestSdk {
+            it.mp { mp -> mp.pushMessageManager.enablePush() }
+        }
+    }
+
+    fun disablePush() {
+        SFMCSdk.requestSdk {
+            it.mp { mp -> mp.pushMessageManager.disablePush() }
+        }
+    }
+
+    fun setProfileId(id: String) {
+        SFMCSdk.requestSdk { it.identity.setProfileId(id) }
+    }
+
+}
