@@ -19,9 +19,9 @@ data class MarketingCloudSdkConfig(val appId: String,
                                    val enableAnalytics: Boolean?) {
 
     companion object {
-        private const val DEFAULT_NOTIFICATION_CHANNEL_RES_NAME = "mcsdk_default_notification_channel_id"
-        private const val NOTIFICATION_ICON_RES_NAME = "mcsdk_notification_icon"
-        private const val NOTIFICATION_MSG_EXTRA = "mcsdk_notification_message_extra"
+        private const val DEFAULT_NOTIFICATION_CHANNEL_RES_NAME = "sfmcplugin_default_notification_channel_id"
+        private const val NOTIFICATION_ICON_RES_NAME = "sfmcplugin_notification_icon"
+        private const val NOTIFICATION_MSG_EXTRA = "sfmcplugin_notification_message_extra"
 
         fun extractNotificationMessage(intent: Intent?): NotificationMessage? {
             if (intent == null) { return null }
