@@ -4,15 +4,15 @@ import type { MarketingCloudPlugin } from './definitions';
 
 export class MarketingCloudWeb extends WebPlugin implements MarketingCloudPlugin {
 
-  initialize(_options: { appId: string; accessToken: string; serverUrl: string; enableAnalytics?: boolean; }): Promise<void> {
+  initialize(_opts: { appId: string; accessToken: string; serverUrl: string; enableAnalytics?: boolean; }): Promise<void> {
     return Promise.reject('Method not implemented.');
   }
 
-  enablePush(_opts: { token: string; }): void {
+  setPushToken(_opts: { token: string; }): void {
     throw new Error('Method not implemented.');
   }
 
-  disablePush(): void {
+  setPushEnabled(_opts: { enabled: boolean }): void {
     throw new Error('Method not implemented.');
   }
 
@@ -28,7 +28,7 @@ export class MarketingCloudWeb extends WebPlugin implements MarketingCloudPlugin
     throw new Error('Method not implemented.');
   }
 
-  handleNotification(opts: { notification: any; }): Promise<{ value: boolean; }> {
+  showNotification(_opts: { notification: any; }): Promise<{ value: boolean; }> {
     return Promise.reject('Method not implemented.');
   }
 

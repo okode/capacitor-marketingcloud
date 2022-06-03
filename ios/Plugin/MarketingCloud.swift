@@ -22,16 +22,15 @@ import MarketingCloudSDK
         ).build())
     }
 
-    @objc public func enablePush(_ token: String) {
+    @objc public func setPushToken(_ token: String) {
         guard let tokenData = token.data(using: .utf8) else {
             return
         }
         SFMCSdk.mp.setDeviceToken(tokenData)
-        SFMCSdk.mp.setPushEnabled(true)
     }
 
-    @objc public func disablePush() {
-        SFMCSdk.mp.setPushEnabled(false)
+    @objc public func setPushEnabled(_ enabled: Bool) {
+        SFMCSdk.mp.setPushEnabled(enabled)
     }
 
     @objc public func setProfileId(_ id: String) {

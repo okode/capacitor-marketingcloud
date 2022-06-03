@@ -2,10 +2,10 @@ package com.okode.marketingcloud
 
 import android.content.Intent
 import com.getcapacitor.JSObject
-import com.getcapacitor.annotation.CapacitorPlugin
-import com.getcapacitor.PluginMethod
-import com.getcapacitor.PluginCall
 import com.getcapacitor.Plugin
+import com.getcapacitor.PluginCall
+import com.getcapacitor.PluginMethod
+import com.getcapacitor.annotation.CapacitorPlugin
 import com.salesforce.marketingcloud.notifications.NotificationMessage
 import com.salesforce.marketingcloud.sfmcsdk.InitializationStatus
 import org.json.JSONObject
@@ -36,13 +36,15 @@ class MarketingCloudPlugin : Plugin() {
     }
 
     @PluginMethod
-    fun enablePush(call: PluginCall) {
-        implementation.enablePush()
+    fun setPushToken(call: PluginCall) {
+        val token = call.getString("token", "")!!
+        implementation.setPushToken(token)
     }
 
     @PluginMethod
-    fun disablePush(call: PluginCall) {
-        implementation.disablePush()
+    fun setPushEnabled(call: PluginCall) {
+        val enabled = call.getBoolean("enabled", true)!!
+        implementation.setPushEnabled(enabled)
     }
 
     @PluginMethod
@@ -63,9 +65,9 @@ class MarketingCloudPlugin : Plugin() {
     }
 
     @PluginMethod
-    fun handleNotification(call: PluginCall) {
+    fun showNotification(call: PluginCall) {
         val notification = call.getObject("notification", JSObject())!!
-        MarketingCloud.handleNotification(notification) {
+        MarketingCloud.showNotification(notification) {
             call.resolve(JSObject().put("value", it))
         }
     }
@@ -82,7 +84,9 @@ class MarketingCloudPlugin : Plugin() {
         values.put("type", notificationType)
         val event = JSObject()
                 .put("timestamp", System.currentTimeMillis())
-                .put("values", values)
+                .put("message", notification.alert)
+                .put("sfmcType", notification.payload?.get("_m"))
+                .put("extras", values)
                 .put("action", "tap")
         notifyListeners("notificationOpened", event, true)
     }

@@ -28,15 +28,18 @@ public class MarketingCloudPlugin: CAPPlugin {
         }
     }
 
-    @objc public func enablePush(_ call: CAPPluginCall) {
+    @objc public func setPushToken(_ call: CAPPluginCall) {
         guard let token = call.getString("token") else {
-            return call.reject("Error enabling push since the token is null")
+            return call.reject("Error setting push since its value is null")
         }
-        implementation.enablePush(token)
+        implementation.setPushToken(token)
     }
 
-    @objc public func disablePush(_ call: CAPPluginCall) {
-        implementation.disablePush()
+    @objc public func setPushEnabled(_ call: CAPPluginCall) {
+        guard let enabled = call.getBool("enabled") else {
+            return call.reject("Error enabling push since the token is null")
+        }
+        implementation.setPushEnabled(enabled)
     }
 
     @objc public func setProfileId(_ call: CAPPluginCall) {

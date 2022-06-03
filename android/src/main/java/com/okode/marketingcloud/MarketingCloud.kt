@@ -37,16 +37,16 @@ class MarketingCloud {
             return PushMessageManager.isMarketingCloudPush(notification)
         }
 
-        fun handleNotification(notification: JSONObject, listener: (success: Boolean) -> Unit) {
+        fun showNotification(notification: JSONObject, listener: (success: Boolean) -> Unit) {
             val notification = parseNotificationAsJSONObj(notification)
             if (notification != null) {
-                handleNotification(notification, listener)
+                showNotification(notification, listener)
             } else {
                 listener(false)
             }
         }
 
-        fun handleNotification(notification: Map<String, String>,
+        fun showNotification(notification: Map<String, String>,
                                listener: (success: Boolean) -> Unit) {
             SFMCSdk.requestSdk {
                 it.mp { mp -> listener(mp.pushMessageManager.handleMessage(notification)) }
@@ -62,17 +62,23 @@ class MarketingCloud {
                 null
             }
         }
+
     }
 
-    fun enablePush() {
+    fun setPushToken(token: String) {
         SFMCSdk.requestSdk {
-            it.mp { mp -> mp.pushMessageManager.enablePush() }
+            it.mp { mp -> mp.pushMessageManager.setPushToken(token) }
         }
     }
 
-    fun disablePush() {
+    fun setPushEnabled(enabled: Boolean) {
         SFMCSdk.requestSdk {
-            it.mp { mp -> mp.pushMessageManager.disablePush() }
+            it.mp { mp ->
+                run {
+                    if (enabled) { mp.pushMessageManager.enablePush() }
+                    else { mp.pushMessageManager.disablePush() }
+                }
+            }
         }
     }
 

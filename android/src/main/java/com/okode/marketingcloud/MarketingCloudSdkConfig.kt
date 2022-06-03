@@ -19,9 +19,9 @@ data class MarketingCloudSdkConfig(val appId: String,
                                    val enableAnalytics: Boolean?) {
 
     companion object {
-        const val DEFAULT_NOTIFICATION_CHANNEL_RES_NAME = "mcsdk_default_notification_channel_id"
-        const val NOTIFICATION_ICON_RES_NAME = "ic_notification_icon"
-        const val NOTIFICATION_MSG_EXTRA = "mcsdk_notification_message_extra"
+        private const val DEFAULT_NOTIFICATION_CHANNEL_RES_NAME = "mcsdk_default_notification_channel_id"
+        private const val NOTIFICATION_ICON_RES_NAME = "mcsdk_notification_icon"
+        private const val NOTIFICATION_MSG_EXTRA = "mcsdk_notification_message_extra"
 
         fun extractNotificationMessage(intent: Intent?): NotificationMessage? {
             if (intent == null) { return null }
@@ -96,8 +96,12 @@ data class MarketingCloudSdkConfig(val appId: String,
         }
 
         private fun getNotificationIconResId(context: Context): Int {
+            val iconNameResId = context.resources.getIdentifier(
+                    NOTIFICATION_ICON_RES_NAME, "string", context.packageName
+            )
+            val iconName = if (iconNameResId != 0) context.getString(iconNameResId) else ""
             return context.resources.getIdentifier(
-                    NOTIFICATION_ICON_RES_NAME, "drawable", context.packageName
+                    iconName, "drawable", context.packageName
             )
         }
 
@@ -108,9 +112,7 @@ data class MarketingCloudSdkConfig(val appId: String,
             return if (resId != 0) context.getString(resId) else null
         }
 
-
     }
-
 
     fun build(context: Context): MarketingCloudConfig {
         return MarketingCloudConfig.builder().apply {
