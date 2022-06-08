@@ -28,6 +28,10 @@ import MarketingCloudSDK
         }
         SFMCSdk.mp.setDeviceToken(tokenData)
     }
+    
+    @objc public func isPushEnabled() -> Bool {
+        return SFMCSdk.mp.pushEnabled()
+    }
 
     @objc public func setPushEnabled(_ enabled: Bool) {
         SFMCSdk.mp.setPushEnabled(enabled)

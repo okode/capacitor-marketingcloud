@@ -12,6 +12,10 @@ export class MarketingCloudWeb extends WebPlugin implements MarketingCloudPlugin
     throw new Error('Method not implemented.');
   }
 
+  isPushEnabled(): Promise<{ value: boolean; }> {
+    return Promise.reject('Method not implemented.');
+  }
+
   setPushEnabled(_opts: { enabled: boolean }): void {
     throw new Error('Method not implemented.');
   }

@@ -13,6 +13,7 @@ export interface MarketingCloudPlugin {
     appId: string; accessToken: string; serverUrl: string; enableAnalytics?: boolean;
   }): Promise<void>;
   setPushToken(opts: { token: string }): void;
+  isPushEnabled(): Promise<{ value: boolean }>;
   setPushEnabled(opts: { enabled: boolean }): void;
   setProfileId(opts: { value: string }): void;
   isMarketingCloudNotification(opts: { notification: any }): Promise<{ value: boolean }>;

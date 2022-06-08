@@ -17,6 +17,7 @@ npx cap sync
 
 * [`initialize(...)`](#initialize)
 * [`setPushToken(...)`](#setpushtoken)
+* [`isPushEnabled()`](#ispushenabled)
 * [`setPushEnabled(...)`](#setpushenabled)
 * [`setProfileId(...)`](#setprofileid)
 * [`isMarketingCloudNotification(...)`](#ismarketingcloudnotification)
@@ -52,6 +53,17 @@ setPushToken(opts: { token: string; }) => void
 | Param      | Type                            |
 | ---------- | ------------------------------- |
 | **`opts`** | <code>{ token: string; }</code> |
+
+--------------------
+
+
+### isPushEnabled()
+
+```typescript
+isPushEnabled() => Promise<{ value: boolean; }>
+```
+
+**Returns:** <code>Promise&lt;{ value: boolean; }&gt;</code>
 
 --------------------
 

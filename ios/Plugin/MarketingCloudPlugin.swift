@@ -34,6 +34,11 @@ public class MarketingCloudPlugin: CAPPlugin {
         }
         implementation.setPushToken(token)
     }
+    
+    @objc public func isPushEnabled(_ call: CAPPluginCall) {
+        let isEnabled = implementation.isPushEnabled()
+        call.resolve([ "value": isEnabled ])
+    }
 
     @objc public func setPushEnabled(_ call: CAPPluginCall) {
         guard let enabled = call.getBool("enabled") else {

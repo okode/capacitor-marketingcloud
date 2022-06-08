@@ -71,6 +71,12 @@ class MarketingCloud {
         }
     }
 
+    fun isPushEnabled(listener: (isEnabled: Boolean) -> Unit) {
+        SFMCSdk.requestSdk {
+            it.mp { mp -> listener(mp.pushMessageManager.isPushEnabled) }
+        }
+    }
+
     fun setPushEnabled(enabled: Boolean) {
         SFMCSdk.requestSdk {
             it.mp { mp ->

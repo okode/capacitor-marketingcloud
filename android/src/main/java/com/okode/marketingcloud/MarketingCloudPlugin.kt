@@ -42,6 +42,13 @@ class MarketingCloudPlugin : Plugin() {
     }
 
     @PluginMethod
+    fun isPushEnabled(call: PluginCall) {
+        implementation.isPushEnabled {
+            call.resolve(JSObject().put("value", it))
+        }
+    }
+
+    @PluginMethod
     fun setPushEnabled(call: PluginCall) {
         val enabled = call.getBoolean("enabled", true)!!
         implementation.setPushEnabled(enabled)
