@@ -15,7 +15,7 @@ public class MarketingCloudPlugin: CAPPlugin {
         let accessToken = call.getString("accessToken", "")
         let serverUrl = call.getString("serverUrl", "")
         let enableAnalytics = call.getBool("enableAnalytics", false)
-        implementation.initialize(appId, accessToken, serverUrl, enableAnalytics) { result in
+        MarketingCloud.initialize(appId, accessToken, serverUrl, enableAnalytics) { result in
             if result == .success {
                 call.resolve()
             } else if result == .error {
@@ -28,13 +28,6 @@ public class MarketingCloudPlugin: CAPPlugin {
         }
     }
 
-    @objc public func setPushToken(_ call: CAPPluginCall) {
-        guard let token = call.getString("token") else {
-            return call.reject("Error setting push since its value is null")
-        }
-        implementation.setPushToken(token)
-    }
-    
     @objc public func isPushEnabled(_ call: CAPPluginCall) {
         let isEnabled = implementation.isPushEnabled()
         call.resolve([ "value": isEnabled ])

@@ -4,7 +4,7 @@ import MarketingCloudSDK
 
 @objc public class MarketingCloud: NSObject {
 
-    @objc public func initialize(_ appId: String,
+    @objc static public func initialize(_ appId: String,
                                  _ accessToken: String,
                                  _ serverUrl: String,
                                  _ enableAnalytics: Bool,
@@ -22,13 +22,10 @@ import MarketingCloudSDK
         ).build())
     }
 
-    @objc public func setPushToken(_ token: String) {
-        guard let tokenData = token.data(using: .utf8) else {
-            return
-        }
-        SFMCSdk.mp.setDeviceToken(tokenData)
+    @objc static public func setPushToken(_ token: Data) {
+        SFMCSdk.mp.setDeviceToken(token)
     }
-    
+
     @objc public func isPushEnabled() -> Bool {
         return SFMCSdk.mp.pushEnabled()
     }

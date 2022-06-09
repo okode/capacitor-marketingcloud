@@ -4,7 +4,9 @@ import android.content.Context
 import android.util.Log
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.google.firebase.messaging.RemoteMessage
 import com.salesforce.marketingcloud.messages.push.PushMessageManager
+import com.salesforce.marketingcloud.sfmcsdk.InitializationStatus
 import com.salesforce.marketingcloud.sfmcsdk.SFMCSdk
 import com.salesforce.marketingcloud.sfmcsdk.SFMCSdkModuleConfig
 import org.json.JSONObject
@@ -21,11 +23,25 @@ class MarketingCloud {
                        accessToken: String,
                        serverUrl: String,
                        enableAnalytics: Boolean?,
-                       listener: com.salesforce.marketingcloud.sfmcsdk.InitializationListener?) {
+                       listener: (success: Boolean) -> Unit?) {
             SFMCSdk.configure(context, SFMCSdkModuleConfig.build {
                 pushModuleConfig = MarketingCloudSdkConfig(
                         appId, accessToken, serverUrl, enableAnalytics).build(context)
-            }, listener)
+            }) {
+                if (listener == null) {
+                    return@configure
+                }
+                when (it.status) {
+                    InitializationStatus.SUCCESS -> listener(true)
+                    else -> listener(false)
+                }
+            }
+        }
+
+        fun setPushToken(token: String) {
+            SFMCSdk.requestSdk {
+                it.mp { mp -> mp.pushMessageManager.setPushToken(token) }
+            }
         }
 
         fun isMarketingCloudNotification(notification: JSONObject): Boolean {
@@ -34,6 +50,10 @@ class MarketingCloud {
         }
 
         fun isMarketingCloudNotification(notification: Map<String, String>): Boolean {
+            return PushMessageManager.isMarketingCloudPush(notification)
+        }
+
+        fun isMarketingCloudNotification(notification: RemoteMessage): Boolean {
             return PushMessageManager.isMarketingCloudPush(notification)
         }
 
@@ -47,7 +67,14 @@ class MarketingCloud {
         }
 
         fun showNotification(notification: Map<String, String>,
-                               listener: (success: Boolean) -> Unit) {
+                               listener: (success: Boolean) -> Unit?) {
+            SFMCSdk.requestSdk {
+                it.mp { mp -> listener(mp.pushMessageManager.handleMessage(notification)) }
+            }
+        }
+
+        fun showNotification(notification: RemoteMessage,
+                             listener: (success: Boolean) -> Unit?) {
             SFMCSdk.requestSdk {
                 it.mp { mp -> listener(mp.pushMessageManager.handleMessage(notification)) }
             }
@@ -63,12 +90,6 @@ class MarketingCloud {
             }
         }
 
-    }
-
-    fun setPushToken(token: String) {
-        SFMCSdk.requestSdk {
-            it.mp { mp -> mp.pushMessageManager.setPushToken(token) }
-        }
     }
 
     fun isPushEnabled(listener: (isEnabled: Boolean) -> Unit) {

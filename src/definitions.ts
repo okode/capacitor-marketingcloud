@@ -12,7 +12,6 @@ export interface MarketingCloudPlugin {
   initialize(options: {
     appId: string; accessToken: string; serverUrl: string; enableAnalytics?: boolean;
   }): Promise<void>;
-  setPushToken(opts: { token: string }): void;
   isPushEnabled(): Promise<{ value: boolean }>;
   setPushEnabled(opts: { enabled: boolean }): void;
   setProfileId(opts: { value: string }): void;

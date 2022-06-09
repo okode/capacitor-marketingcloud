@@ -16,7 +16,6 @@ npx cap sync
 <docgen-index>
 
 * [`initialize(...)`](#initialize)
-* [`setPushToken(...)`](#setpushtoken)
 * [`isPushEnabled()`](#ispushenabled)
 * [`setPushEnabled(...)`](#setpushenabled)
 * [`setProfileId(...)`](#setprofileid)
@@ -40,19 +39,6 @@ initialize(options: { appId: string; accessToken: string; serverUrl: string; ena
 | Param         | Type                                                                                               |
 | ------------- | -------------------------------------------------------------------------------------------------- |
 | **`options`** | <code>{ appId: string; accessToken: string; serverUrl: string; enableAnalytics?: boolean; }</code> |
-
---------------------
-
-
-### setPushToken(...)
-
-```typescript
-setPushToken(opts: { token: string; }) => void
-```
-
-| Param      | Type                            |
-| ---------- | ------------------------------- |
-| **`opts`** | <code>{ token: string; }</code> |
 
 --------------------
 

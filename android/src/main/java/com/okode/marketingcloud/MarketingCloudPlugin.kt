@@ -27,18 +27,12 @@ class MarketingCloudPlugin : Plugin() {
         val serverUrl = call.getString("serverUrl", "")!!
         val enableAnalytics = call.getBoolean("enableAnalytics", false)!!
         MarketingCloud.initialize(bridge.context, appId, accessToken, serverUrl, enableAnalytics) {
-            if (it.status == InitializationStatus.SUCCESS) {
+            if (it) {
                 call.resolve()
             } else {
                 call.reject("Error initializing Marketing cloud")
             }
         }
-    }
-
-    @PluginMethod
-    fun setPushToken(call: PluginCall) {
-        val token = call.getString("token", "")!!
-        implementation.setPushToken(token)
     }
 
     @PluginMethod

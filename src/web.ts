@@ -8,10 +8,6 @@ export class MarketingCloudWeb extends WebPlugin implements MarketingCloudPlugin
     return Promise.reject('Method not implemented.');
   }
 
-  setPushToken(_opts: { token: string; }): void {
-    throw new Error('Method not implemented.');
-  }
-
   isPushEnabled(): Promise<{ value: boolean; }> {
     return Promise.reject('Method not implemented.');
   }

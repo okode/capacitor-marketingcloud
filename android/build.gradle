@@ -60,8 +60,8 @@ dependencies {
     implementation project(':capacitor-android')
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     implementation "androidx.core:core-ktx:$androidxCoreKtxVersion"
-    implementation "com.salesforce.marketingcloud:marketingcloudsdk:$marketingCloudSDKVersion"
     implementation "com.fasterxml.jackson.core:jackson-databind:$jacksonCoreVersion"
+    implementation "com.salesforce.marketingcloud:marketingcloudsdk:$marketingCloudSDKVersion"
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
