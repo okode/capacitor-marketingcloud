@@ -4,10 +4,6 @@ import type { MarketingCloudPlugin } from './definitions';
 
 export class MarketingCloudWeb extends WebPlugin implements MarketingCloudPlugin {
 
-  initialize(_opts: { appId: string; accessToken: string; serverUrl: string; enableAnalytics?: boolean; }): Promise<void> {
-    return Promise.reject('Method not implemented.');
-  }
-
   isPushEnabled(): Promise<{ value: boolean; }> {
     return Promise.reject('Method not implemented.');
   }

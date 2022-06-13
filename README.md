@@ -15,7 +15,6 @@ npx cap sync
 
 <docgen-index>
 
-* [`initialize(...)`](#initialize)
 * [`isPushEnabled()`](#ispushenabled)
 * [`setPushEnabled(...)`](#setpushenabled)
 * [`getProfileId()`](#getprofileid)
@@ -36,19 +35,6 @@ npx cap sync
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
-
-### initialize(...)
-
-```typescript
-initialize(options: { appId: string; accessToken: string; serverUrl: string; enableAnalytics?: boolean; }) => Promise<void>
-```
-
-| Param         | Type                                                                                               |
-| ------------- | -------------------------------------------------------------------------------------------------- |
-| **`options`** | <code>{ appId: string; accessToken: string; serverUrl: string; enableAnalytics?: boolean; }</code> |
-
---------------------
-
 
 ### isPushEnabled()
 

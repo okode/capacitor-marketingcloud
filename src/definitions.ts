@@ -7,9 +7,6 @@ export interface MarketingCloudNotification {
 }
 
 export interface MarketingCloudPlugin {
-  initialize(options: {
-    appId: string; accessToken: string; serverUrl: string; enableAnalytics?: boolean;
-  }): Promise<void>;
   isPushEnabled(): Promise<{ value: boolean }>;
   setPushEnabled(opts: { enabled: boolean }): void;
   getProfileId(): Promise<{ value: string }>;

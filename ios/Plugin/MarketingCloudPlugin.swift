@@ -21,24 +21,6 @@ public class MarketingCloudPlugin: CAPPlugin {
         NotificationCenter.default.removeObserver(self)
     }
 
-    @objc public func initialize(_ call: CAPPluginCall) {
-        let appId = call.getString("appId", "")
-        let accessToken = call.getString("accessToken", "")
-        let serverUrl = call.getString("serverUrl", "")
-        let enableAnalytics = call.getBool("enableAnalytics", false)
-        MarketingCloud.initialize(appId, accessToken, serverUrl, enableAnalytics) { result in
-            if result == .success {
-                call.resolve()
-            } else if result == .error {
-                call.reject("Module failed to initialize, check logs for more details")
-            } else if result == .cancelled {
-                call.reject("Module initialization was cancelled")
-            } else if result == .timeout {
-                call.reject("Module failed to initialize due to timeout, check logs for more details")
-            }
-        }
-    }
-
     @objc public func isPushEnabled(_ call: CAPPluginCall) {
         let isEnabled = implementation.isPushEnabled()
         call.resolve([ "value": isEnabled ])
