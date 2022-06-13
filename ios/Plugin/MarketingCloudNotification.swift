@@ -1,6 +1,4 @@
 import Foundation
-import SFMCSDK
-import MarketingCloudSDK
 
 @objc public class MarketingCloudNotification: NSObject {
 
