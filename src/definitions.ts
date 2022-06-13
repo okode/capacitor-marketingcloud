@@ -1,9 +1,7 @@
 import type { PluginListenerHandle } from '@capacitor/core';
 
 export interface MarketingCloudNotification {
-  timestamp: number;
-  message: string;
-  sfmcType?: string;
+  sfmcMessageId?: string;
   extras?: any;
   action: 'tap';
 }
@@ -24,8 +22,5 @@ export interface MarketingCloudPlugin {
   * Only available on Android
   */
   showNotification(opts: { notification: any }): Promise<{ value: boolean }>;
-  /*
-  * Only available on Android
-  */
   addListener(eventName: 'notificationOpened', listenerFunc: (notification: MarketingCloudNotification) => void): PluginListenerHandle;
 }

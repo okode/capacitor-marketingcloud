@@ -10,6 +10,17 @@ import MarketingCloudSDK
 public class MarketingCloudPlugin: CAPPlugin {
     private let implementation = MarketingCloud()
 
+    override public func load() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.handleNotificationOpened(notification:)),
+                                               name: NSNotification.Name.SFMCFoundationUNNotificationReceived,
+                                               object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
     @objc public func initialize(_ call: CAPPluginCall) {
         let appId = call.getString("appId", "")
         let accessToken = call.getString("accessToken", "")
@@ -56,6 +67,37 @@ public class MarketingCloudPlugin: CAPPlugin {
     @objc public func notifyNotificationOpened(_ call: CAPPluginCall) {
         let notification = call.getObject("notification", [:])
         implementation.notifyNotificationOpened(notification)
+    }
+
+    @objc public func handleNotificationOpened(notification: NSNotification) {
+        guard var notificationMessage = MarketingCloud.extractNotificationMessage(notification) else {
+            return;
+        }
+
+        let messageId = MarketingCloudNotification.getId(notificationMessage)
+        if messageId != nil {
+            notificationMessage["sfmcMessageId"] = messageId
+        }
+
+        func addUrl(_ url: String) { notificationMessage["url"] = url }
+
+        func addType(_ type: String) {notificationMessage["type"] = type }
+
+        if let openDirectUrl = MarketingCloudNotification.getOpenDirectUrl(notificationMessage) {
+            addUrl(openDirectUrl)
+            addType("openDirect")
+        } else if let cloudPageUrl = MarketingCloudNotification.getCloudPageUrl(notificationMessage)  {
+            addUrl(cloudPageUrl)
+            addType("cloudPage")
+        } else {
+            addType("other")
+        }
+
+        notifyListeners("notificationOpened", data: [
+            "sfmcMessageId": messageId ?? NSNull(),
+            "extras": notificationMessage,
+            "action": "tap"
+        ])
     }
 
 }

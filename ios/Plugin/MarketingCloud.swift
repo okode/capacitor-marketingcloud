@@ -26,6 +26,19 @@ import MarketingCloudSDK
         SFMCSdk.mp.setDeviceToken(token)
     }
 
+    @objc static public func extractNotificationMessage(_ notification: NSNotification) -> [String: Any]? {
+        if let userInfo = notification.userInfo {
+            if let notificationReq = userInfo["SFMCFoundationUNNotificationReceivedNotificationKeyUNNotificationRequest"] {
+                return notificationReq as? [String:Any]
+            }
+
+            if let notificationUserInfo = userInfo["SFMCFoundationNotificationReceivedNotificationKeyUserInfo"] {
+                return notificationUserInfo as? [String:Any]
+            }
+        }
+        return nil;
+    }
+
     @objc public func isPushEnabled() -> Bool {
         return SFMCSdk.mp.pushEnabled()
     }

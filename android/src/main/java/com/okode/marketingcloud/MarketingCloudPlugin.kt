@@ -76,6 +76,8 @@ class MarketingCloudPlugin : Plugin() {
     private fun handleNotificationOpened(notification: NotificationMessage?) {
         if (notification == null) { return }
         val values = JSObject.fromJSONObject(JSONObject(notification.payload))
+        val messageId = notification.payload?.get("_m")
+        values.put("sfmcMessageId", messageId)
         notification.url?.let { values.put("url", it) }
         val notificationType = when(notification.type) {
             NotificationMessage.Type.OTHER -> "other"
@@ -84,9 +86,7 @@ class MarketingCloudPlugin : Plugin() {
         }
         values.put("type", notificationType)
         val event = JSObject()
-                .put("timestamp", System.currentTimeMillis())
-                .put("message", notification.alert)
-                .put("sfmcType", notification.payload?.get("_m"))
+                .put("sfmcMessageId", messageId)
                 .put("extras", values)
                 .put("action", "tap")
         notifyListeners("notificationOpened", event, true)
