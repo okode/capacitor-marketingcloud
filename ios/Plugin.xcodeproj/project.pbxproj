@@ -16,6 +16,7 @@
 		50ADFFA42020D75100D50D53 /* Capacitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50ADFFA52020D75100D50D53 /* Capacitor.framework */; };
 		50ADFFA82020EE4F00D50D53 /* MarketingCloudPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 50ADFFA72020EE4F00D50D53 /* MarketingCloudPlugin.m */; };
 		50E1A94820377CB70090CE1A /* MarketingCloudPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E1A94720377CB70090CE1A /* MarketingCloudPlugin.swift */; };
+		F7C2EC53285773D700B196BC /* MarketingCloudNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C2EC52285773D700B196BC /* MarketingCloudNotification.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		96ED1B6440D6672E406C8D19 /* Pods-PluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.debug.xcconfig"; sourceTree = "<group>"; };
 		F65BB2953ECE002E1EF3E424 /* Pods-PluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PluginTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PluginTests/Pods-PluginTests.release.xcconfig"; sourceTree = "<group>"; };
 		F6753A823D3815DB436415E3 /* Pods_PluginTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PluginTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7C2EC52285773D700B196BC /* MarketingCloudNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketingCloudNotification.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 		50ADFF8A201F53D600D50D53 /* Plugin */ = {
 			isa = PBXGroup;
 			children = (
+				F7C2EC52285773D700B196BC /* MarketingCloudNotification.swift */,
 				50E1A94720377CB70090CE1A /* MarketingCloudPlugin.swift */,
 				2F98D68124C9AAE400613A4C /* MarketingCloud.swift */,
 				50ADFF8B201F53D600D50D53 /* MarketingCloudPlugin.h */,
@@ -350,6 +353,7 @@
 			files = (
 				50E1A94820377CB70090CE1A /* MarketingCloudPlugin.swift in Sources */,
 				2F98D68224C9AAE500613A4C /* MarketingCloud.swift in Sources */,
+				F7C2EC53285773D700B196BC /* MarketingCloudNotification.swift in Sources */,
 				50ADFFA82020EE4F00D50D53 /* MarketingCloudPlugin.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
