@@ -7,7 +7,6 @@ import com.getcapacitor.PluginCall
 import com.getcapacitor.PluginMethod
 import com.getcapacitor.annotation.CapacitorPlugin
 import com.salesforce.marketingcloud.notifications.NotificationMessage
-import com.salesforce.marketingcloud.sfmcsdk.InitializationStatus
 import org.json.JSONObject
 
 @CapacitorPlugin(name = "MarketingCloud")
@@ -49,6 +48,13 @@ class MarketingCloudPlugin : Plugin() {
     }
 
     @PluginMethod
+    fun getProfileId(call: PluginCall) {
+        implementation.getProfileId() {
+            call.resolve(JSObject().put("value", it))
+        }
+    }
+
+    @PluginMethod
     fun setProfileId(call: PluginCall) {
         val profileId = call.getString("value")
         if (profileId == null) {
@@ -56,6 +62,67 @@ class MarketingCloudPlugin : Plugin() {
             return
         }
         implementation.setProfileId(profileId)
+    }
+
+    @PluginMethod
+    fun getAttributes(call: PluginCall) {
+        implementation.getAttributes { it
+            call.resolve(JSObject().put("attributes", it))
+        }
+    }
+
+    @PluginMethod
+    fun setAttribute(call: PluginCall) {
+        val key = call.getString("key")
+        val value = call.getString("value")
+        if (key == null || value == null) {
+            call.reject("Invalid attribute key or value")
+            return
+        }
+        implementation.setAttribute(key, value)
+    }
+
+    @PluginMethod
+    fun clearAttribute(call: PluginCall) {
+        val key = call.getString("key")
+        if (key == null) {
+            call.reject("Invalid attribute key")
+            return
+        }
+        implementation.clearAttribute(key) {
+            call.resolve(JSObject().put("value", it))
+        }
+    }
+
+    @PluginMethod
+    fun getTags(call: PluginCall) {
+        implementation.getTags { it
+            call.resolve(JSObject().put("tags", it))
+        }
+    }
+
+    @PluginMethod
+    fun addTag(call: PluginCall) {
+        val tag = call.getString("value")
+        if (tag == null) {
+            call.reject("Invalid tag")
+            return
+        }
+        implementation.addTag(tag) {
+            call.resolve(JSObject().put("value", it))
+        }
+    }
+
+    @PluginMethod
+    fun removeTag(call: PluginCall) {
+        val tag = call.getString("value")
+        if (tag == null) {
+            call.reject("Invalid tag")
+            return
+        }
+        implementation.removeTag(tag) {
+            call.resolve(JSObject().put("value", it))
+        }
     }
 
     @PluginMethod

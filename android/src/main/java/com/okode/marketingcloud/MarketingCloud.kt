@@ -109,8 +109,48 @@ class MarketingCloud {
         }
     }
 
+    fun getProfileId(listener: (id: String?) -> Unit) {
+        SFMCSdk.requestSdk { it.mp { mp ->
+            listener(mp.moduleIdentity.profileId)
+        }}
+    }
+
     fun setProfileId(id: String) {
         SFMCSdk.requestSdk { it.identity.setProfileId(id) }
+    }
+
+    fun getAttributes(listener: (attrs: Map<String, String>) -> Unit) {
+        SFMCSdk.requestSdk { it.mp { mp ->
+            listener(mp.registrationManager.attributes)
+        }}
+    }
+
+    fun setAttribute(key: String, value: String) {
+        SFMCSdk.requestSdk { it.identity.setProfileAttribute(key, value) }
+    }
+
+    fun clearAttribute(key: String, listener: (success: Boolean) -> Unit) {
+        SFMCSdk.requestSdk { it.mp { mp ->
+            listener(mp.registrationManager.edit().clearAttribute(key).commit())
+        }}
+    }
+
+    fun getTags(listener: (tags: Set<String>) -> Unit) {
+        SFMCSdk.requestSdk { it.mp { mp ->
+            listener(mp.registrationManager.tags)
+        }}
+    }
+
+    fun addTag(tag: String, listener: (success: Boolean) -> Unit) {
+        SFMCSdk.requestSdk { it.mp { mp ->
+            listener(mp.registrationManager.edit().addTag(tag).commit())
+        }}
+    }
+
+    fun removeTag(tag: String, listener: (success: Boolean) -> Unit) {
+        SFMCSdk.requestSdk { it.mp { mp ->
+            listener(mp.registrationManager.edit().removeTag(tag).commit())
+        }}
     }
 
 }

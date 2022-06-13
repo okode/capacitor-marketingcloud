@@ -47,8 +47,37 @@ import MarketingCloudSDK
         SFMCSdk.mp.setPushEnabled(enabled)
     }
 
+    @objc public func getProfileId() -> String? {
+        return SFMCSdk.mp.getIdentity()?.profileId
+    }
+
     @objc public func setProfileId(_ id: String) {
         SFMCSdk.identity.setProfileId(id)
+    }
+
+    @objc public func getAttributes() -> [AnyHashable:Any]? {
+        return SFMCSdk.mp.attributes() as? [String:Any]
+    }
+
+    @objc public func setAttribute(_ key: String, _ value: String) {
+        SFMCSdk.identity.setProfileAttributes([ key: value ])
+    }
+
+    @objc public func clearAttribute(_ key: String) -> Bool {
+        SFMCSdk.identity.clearProfileAttribute(key: key)
+        return true
+    }
+
+    @objc public func getTags() -> Set<AnyHashable>? {
+        return SFMCSdk.mp.tags()
+    }
+
+    @objc public func addTag(_ tag: String) -> Bool {
+        return SFMCSdk.mp.addTag(tag)
+    }
+
+    @objc public func removeTag(_ tag: String) -> Bool {
+        return SFMCSdk.mp.removeTag(tag)
     }
 
     @objc public func isMarketingCloudNotification(_ notification: [String:Any]) -> Bool {

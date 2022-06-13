@@ -51,11 +51,51 @@ public class MarketingCloudPlugin: CAPPlugin {
         implementation.setPushEnabled(enabled)
     }
 
+    @objc public func getProfileId(_ call: CAPPluginCall) {
+        call.resolve([ "value": implementation.getProfileId() ?? NSNull() ])
+    }
+
     @objc public func setProfileId(_ call: CAPPluginCall) {
         guard let id = call.getString("value") else {
             return call.reject("Error setting profile id since its value is null")
         }
         implementation.setProfileId(id)
+    }
+
+    @objc public func getAttributes(_ call: CAPPluginCall) {
+        call.resolve([ "attributes": implementation.getAttributes() ?? [:] ])
+    }
+
+    @objc public func setAttribute(_ call: CAPPluginCall) {
+        guard let key = call.getString("key"), let value = call.getString("value") else {
+            return call.reject("Invalid attribute key or value")
+        }
+        implementation.setAttribute(key, value)
+    }
+
+    @objc public func clearAttribute(_ call: CAPPluginCall) {
+        guard let key = call.getString("key") else {
+            return call.reject("Invalid attribute key")
+        }
+        call.resolve([ "value": implementation.clearAttribute(key) ])
+    }
+
+    @objc public func getTags(_ call: CAPPluginCall) {
+        call.resolve([ "tags": implementation.getTags() ?? [] ])
+    }
+
+    @objc public func addTag(_ call: CAPPluginCall) {
+        guard let tag = call.getString("value") else {
+            return call.reject("Invalid tag")
+        }
+        call.resolve([ "value": implementation.addTag(tag) ])
+    }
+
+    @objc public func removeTag(_ call: CAPPluginCall) {
+        guard let tag = call.getString("value") else {
+            return call.reject("Invalid tag")
+        }
+        call.resolve([ "value": implementation.removeTag(tag) ])
     }
 
     @objc public func isMarketingCloudNotification(_ call: CAPPluginCall) {
