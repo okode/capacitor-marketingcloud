@@ -18,7 +18,14 @@ npx cap sync
 * [`initialize(...)`](#initialize)
 * [`isPushEnabled()`](#ispushenabled)
 * [`setPushEnabled(...)`](#setpushenabled)
+* [`getProfileId()`](#getprofileid)
 * [`setProfileId(...)`](#setprofileid)
+* [`getAttributes()`](#getattributes)
+* [`setAttribute(...)`](#setattribute)
+* [`clearAttribute(...)`](#clearattribute)
+* [`getTags()`](#gettags)
+* [`addTag(...)`](#addtag)
+* [`removeTag(...)`](#removetag)
 * [`isMarketingCloudNotification(...)`](#ismarketingcloudnotification)
 * [`notifyNotificationOpened(...)`](#notifynotificationopened)
 * [`showNotification(...)`](#shownotification)
@@ -67,6 +74,17 @@ setPushEnabled(opts: { enabled: boolean; }) => void
 --------------------
 
 
+### getProfileId()
+
+```typescript
+getProfileId() => Promise<{ value: string; }>
+```
+
+**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+
+--------------------
+
+
 ### setProfileId(...)
 
 ```typescript
@@ -76,6 +94,86 @@ setProfileId(opts: { value: string; }) => void
 | Param      | Type                            |
 | ---------- | ------------------------------- |
 | **`opts`** | <code>{ value: string; }</code> |
+
+--------------------
+
+
+### getAttributes()
+
+```typescript
+getAttributes() => Promise<{ attributes: string; }>
+```
+
+**Returns:** <code>Promise&lt;{ attributes: string; }&gt;</code>
+
+--------------------
+
+
+### setAttribute(...)
+
+```typescript
+setAttribute(opts: { key: string; value: string; }) => void
+```
+
+| Param      | Type                                         |
+| ---------- | -------------------------------------------- |
+| **`opts`** | <code>{ key: string; value: string; }</code> |
+
+--------------------
+
+
+### clearAttribute(...)
+
+```typescript
+clearAttribute(opts: { key: string; }) => Promise<{ value: boolean; }>
+```
+
+| Param      | Type                          |
+| ---------- | ----------------------------- |
+| **`opts`** | <code>{ key: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ value: boolean; }&gt;</code>
+
+--------------------
+
+
+### getTags()
+
+```typescript
+getTags() => Promise<{ tags: string[]; }>
+```
+
+**Returns:** <code>Promise&lt;{ tags: string[]; }&gt;</code>
+
+--------------------
+
+
+### addTag(...)
+
+```typescript
+addTag(opts: { value: string; }) => Promise<{ value: boolean; }>
+```
+
+| Param      | Type                            |
+| ---------- | ------------------------------- |
+| **`opts`** | <code>{ value: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ value: boolean; }&gt;</code>
+
+--------------------
+
+
+### removeTag(...)
+
+```typescript
+removeTag(opts: { value: string; }) => Promise<{ value: boolean; }>
+```
+
+| Param      | Type                            |
+| ---------- | ------------------------------- |
+| **`opts`** | <code>{ value: string; }</code> |
+
+**Returns:** <code>Promise&lt;{ value: boolean; }&gt;</code>
 
 --------------------
 
@@ -151,12 +249,10 @@ addListener(eventName: 'notificationOpened', listenerFunc: (notification: Market
 
 #### MarketingCloudNotification
 
-| Prop            | Type                |
-| --------------- | ------------------- |
-| **`timestamp`** | <code>number</code> |
-| **`message`**   | <code>string</code> |
-| **`sfmcType`**  | <code>string</code> |
-| **`extras`**    | <code>any</code>    |
-| **`action`**    | <code>'tap'</code>  |
+| Prop                | Type                |
+| ------------------- | ------------------- |
+| **`sfmcMessageId`** | <code>string</code> |
+| **`extras`**        | <code>any</code>    |
+| **`action`**        | <code>'tap'</code>  |
 
 </docgen-api>
