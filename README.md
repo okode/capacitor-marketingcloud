@@ -37,6 +37,7 @@ Send push token to SFMC in the `application(:didRegisterForRemoteNotificationsWi
 
 ```swift
 func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+  NotificationCenter.default.post(name: .capacitorDidRegisterForRemoteNotifications, object: deviceToken) // Documented in Capacitor Push Notifications plugin integration
   MarketingCloud.setPushToken(deviceToken)
 }
 ```
