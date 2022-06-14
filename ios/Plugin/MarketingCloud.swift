@@ -55,8 +55,8 @@ import MarketingCloudSDK
         SFMCSdk.identity.setProfileId(id)
     }
 
-    @objc public func getAttributes() -> [AnyHashable:Any]? {
-        return SFMCSdk.mp.attributes() as? [String:Any]
+    @objc public func getAttributes() -> [String:Any] {
+        return SFMCSdk.mp.attributes() as? [String:Any] ?? [:]
     }
 
     @objc public func setAttribute(_ key: String, _ value: String) {
@@ -68,8 +68,8 @@ import MarketingCloudSDK
         return true
     }
 
-    @objc public func getTags() -> Set<AnyHashable>? {
-        return SFMCSdk.mp.tags()
+    @objc public func getTags() -> [String] {
+        return Array(SFMCSdk.mp.tags() as? Set<String> ?? [])
     }
 
     @objc public func addTag(_ tag: String) -> Bool {

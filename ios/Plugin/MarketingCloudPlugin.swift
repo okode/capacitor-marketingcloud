@@ -45,7 +45,7 @@ public class MarketingCloudPlugin: CAPPlugin {
     }
 
     @objc public func getAttributes(_ call: CAPPluginCall) {
-        call.resolve([ "attributes": implementation.getAttributes() ?? [:] ])
+        call.resolve([ "attributes": implementation.getAttributes() ])
     }
 
     @objc public func setAttribute(_ call: CAPPluginCall) {
@@ -63,7 +63,7 @@ public class MarketingCloudPlugin: CAPPlugin {
     }
 
     @objc public func getTags(_ call: CAPPluginCall) {
-        call.resolve([ "tags": implementation.getTags() ?? [] ])
+        call.resolve([ "tags": implementation.getTags() ])
     }
 
     @objc public func addTag(_ call: CAPPluginCall) {

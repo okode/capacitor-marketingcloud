@@ -52,7 +52,8 @@ class MarketingCloudPlugin : Plugin() {
     @PluginMethod
     fun getAttributes(call: PluginCall) {
         implementation.getAttributes { it
-            call.resolve(JSObject().put("attributes", it))
+            val attrs = JSObject.fromJSONObject(JSONObject(it))
+            call.resolve(JSObject().put("attributes", attrs))
         }
     }
 
