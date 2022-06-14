@@ -11,6 +11,128 @@ npm install @okode/capacitor-marketingcloud
 npx cap sync
 ```
 
+## Previous steps
+
+This plugin is built to be used along side with the official [Capacitor Push Notifications plugin](https://capacitorjs.com/docs/apis/push-notifications). Therefore, first of all, you must configure your project following the plugin instructions. This implementation approach avoid us to reimplement all logic that this official plugin already implements. For example, the developer will have to request the permission for push notifications by using Push Notifications plugin API.
+
+
+## iOS
+
+Initialize SFMC in the `application(:didFinishLaunchingWithOptions)` method of your `AppDelegate.swift`. Example:
+
+```swift
+func application(_ application: UIApplication,
+  didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+) -> Bool {
+  let appId = "APP_ID"
+  let token = "TOKEN"
+  let serverUrl = "SERVER_URL"
+  let isAnalyticsEnabled = true // true | false
+  MarketingCloud.initialize(appId, token, serverUrl, isAnalyticsEnabled)
+  return true
+}
+```
+
+Send push token to SFMC in the `application(:didRegisterForRemoteNotificationsWithDeviceToken)` method of your `AppDelegate.swift`. Example:
+
+```swift
+func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+  MarketingCloud.setPushToken(deviceToken)
+}
+```
+
+Note: check the official Marketing Cloud SDK [documentation](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-iOS/get-started/get-started-setupapps.html) to know how to get the configuration values.
+
+## Android
+
+Initialize SFMC in the `onCreate` method of your Android application class. If you don't have one, create it and reference it in your `AndroidManifest.xml`. Example:
+
+```java
+public class MyApp extends Application {
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    String appId = "APP_ID";
+    String token = "TOKEN";
+    String serverUrl = "SERVER_URL";
+    boolean isAnalyticsEnabled = true; // true | false
+    MarketingCloud.Companion.initialize(
+      getApplicationContext(),
+      appId,
+      token,
+      serverUrl,
+      isAnalyticsEnabled,
+      initializationStatus -> Unit.INSTANCE
+    );
+  }
+
+}
+```
+Note: check the official Marketing Cloud SDK [documentation](https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/create-apps/create-apps-overview.html) to know how to get the configuration values.
+
+Implement your custom FirebaseMessagingService to send push token to SFMC and also handling SFMC push notifications with the plugin. Example:
+```java
+public class MyAppFirebaseMessagingService extends FirebaseMessagingService {
+
+  @Override
+  public void onNewToken(String newToken) {
+    super.onNewToken(newToken);
+    MarketingCloud.Companion.setPushToken(newToken);
+    PushNotificationsPlugin.onNewToken(newToken);
+  }
+
+  @Override
+  public void onMessageReceived(RemoteMessage remoteMessage) {
+    super.onMessageReceived(remoteMessage);
+    if (MarketingCloud.Companion.isMarketingCloudNotification(remoteMessage)) {
+      MarketingCloud.Companion.showNotification(remoteMessage, res -> Unit.INSTANCE);
+    } else {
+      // Handle any notification sent from other notifications broker
+    }
+    PushNotificationsPlugin.sendRemoteMessage(remoteMessage);
+  }
+
+}
+```
+And register it in your `AndroidManifest.xml`. Example:
+```xml
+  <application...>
+    ...
+    <service android:name="com.okode.myapp.MyAppFirebaseMessagingService" android:stopWithTask="false">
+      <intent-filter android:priority="9999">
+        <action android:name="com.google.firebase.MESSAGING_EVENT" />
+      </intent-filter>
+    </service>
+    ...
+  </application>
+```
+
+### Notification icon
+
+Configure your notification icon by setting the resource name in your `strings.xml`:
+```xml
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+  ...
+  <string name="sfmcplugin_notification_icon">ic_notification</string>
+  ...
+</resources>
+```
+
+### Default notification channel for Android O+
+
+Configure the default notification channel for Android 0+ devices by setting this in your `strings.xml`:
+```xml
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+  ...
+  <string name="sfmcplugin_default_notification_channel_id">my_channel_id</string>
+  ...
+</resources>
+```
+Note: this plugin will use the default SFMC SDK channel if you don't set a custom one. So, only set it up if you needed.
+
 ## API
 
 <docgen-index>
@@ -42,7 +164,11 @@ npx cap sync
 isPushEnabled() => Promise<{ value: boolean; }>
 ```
 
+Returns true if push notifications are enabled, otherwise false.
+
 **Returns:** <code>Promise&lt;{ value: boolean; }&gt;</code>
+
+**Since:** 1.0.0
 
 --------------------
 
@@ -53,9 +179,13 @@ isPushEnabled() => Promise<{ value: boolean; }>
 setPushEnabled(opts: { enabled: boolean; }) => void
 ```
 
+Sets push notifications status according to the provided input param.
+
 | Param      | Type                               |
 | ---------- | ---------------------------------- |
 | **`opts`** | <code>{ enabled: boolean; }</code> |
+
+**Since:** 1.0.0
 
 --------------------
 
@@ -66,7 +196,11 @@ setPushEnabled(opts: { enabled: boolean; }) => void
 getProfileId() => Promise<{ value: string; }>
 ```
 
+Get profile id.
+
 **Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+
+**Since:** 1.0.0
 
 --------------------
 
@@ -77,9 +211,13 @@ getProfileId() => Promise<{ value: string; }>
 setProfileId(opts: { value: string; }) => void
 ```
 
+Set profile id.
+
 | Param      | Type                            |
 | ---------- | ------------------------------- |
 | **`opts`** | <code>{ value: string; }</code> |
+
+**Since:** 1.0.0
 
 --------------------
 
@@ -90,7 +228,11 @@ setProfileId(opts: { value: string; }) => void
 getAttributes() => Promise<{ attributes: string; }>
 ```
 
+Gets attributes.
+
 **Returns:** <code>Promise&lt;{ attributes: string; }&gt;</code>
+
+**Since:** 1.0.0
 
 --------------------
 
@@ -101,9 +243,13 @@ getAttributes() => Promise<{ attributes: string; }>
 setAttribute(opts: { key: string; value: string; }) => void
 ```
 
+Sets an attribute.
+
 | Param      | Type                                         |
 | ---------- | -------------------------------------------- |
 | **`opts`** | <code>{ key: string; value: string; }</code> |
+
+**Since:** 1.0.0
 
 --------------------
 
@@ -114,11 +260,15 @@ setAttribute(opts: { key: string; value: string; }) => void
 clearAttribute(opts: { key: string; }) => Promise<{ value: boolean; }>
 ```
 
+Clears an attribute.
+
 | Param      | Type                          |
 | ---------- | ----------------------------- |
 | **`opts`** | <code>{ key: string; }</code> |
 
 **Returns:** <code>Promise&lt;{ value: boolean; }&gt;</code>
+
+**Since:** 1.0.0
 
 --------------------
 
@@ -129,7 +279,11 @@ clearAttribute(opts: { key: string; }) => Promise<{ value: boolean; }>
 getTags() => Promise<{ tags: string[]; }>
 ```
 
+Gets tags.
+
 **Returns:** <code>Promise&lt;{ tags: string[]; }&gt;</code>
+
+**Since:** 1.0.0
 
 --------------------
 
@@ -140,11 +294,15 @@ getTags() => Promise<{ tags: string[]; }>
 addTag(opts: { value: string; }) => Promise<{ value: boolean; }>
 ```
 
+Adds a tag.
+
 | Param      | Type                            |
 | ---------- | ------------------------------- |
 | **`opts`** | <code>{ value: string; }</code> |
 
 **Returns:** <code>Promise&lt;{ value: boolean; }&gt;</code>
+
+**Since:** 1.0.0
 
 --------------------
 
@@ -155,11 +313,15 @@ addTag(opts: { value: string; }) => Promise<{ value: boolean; }>
 removeTag(opts: { value: string; }) => Promise<{ value: boolean; }>
 ```
 
+Removes a tag.
+
 | Param      | Type                            |
 | ---------- | ------------------------------- |
 | **`opts`** | <code>{ value: string; }</code> |
 
 **Returns:** <code>Promise&lt;{ value: boolean; }&gt;</code>
+
+**Since:** 1.0.0
 
 --------------------
 
@@ -170,11 +332,15 @@ removeTag(opts: { value: string; }) => Promise<{ value: boolean; }>
 isMarketingCloudNotification(opts: { notification: any; }) => Promise<{ value: boolean; }>
 ```
 
+Helper method to identify a push message payload sent from the Marketing Cloud.
+
 | Param      | Type                                |
 | ---------- | ----------------------------------- |
 | **`opts`** | <code>{ notification: any; }</code> |
 
 **Returns:** <code>Promise&lt;{ value: boolean; }&gt;</code>
+
+**Since:** 1.0.0
 
 --------------------
 
@@ -185,9 +351,16 @@ isMarketingCloudNotification(opts: { notification: any; }) => Promise<{ value: b
 notifyNotificationOpened(opts: { notification: any; }) => void
 ```
 
+Helper method to notify SFMC that your notification has been opened. When this method is
+called providing a valid SFMC notificaion then `'notificationOpened'` listener is fired.
+
+Only available on iOS.
+
 | Param      | Type                                |
 | ---------- | ----------------------------------- |
 | **`opts`** | <code>{ notification: any; }</code> |
+
+**Since:** 1.0.0
 
 --------------------
 
@@ -198,11 +371,18 @@ notifyNotificationOpened(opts: { notification: any; }) => void
 showNotification(opts: { notification: any; }) => Promise<{ value: boolean; }>
 ```
 
+Shows a SFMC notification. If the method returns false, that means that the provided
+notification payload is not a valid SFMC one and it could be handled successfully.
+
+Only available on Android.
+
 | Param      | Type                                |
 | ---------- | ----------------------------------- |
 | **`opts`** | <code>{ notification: any; }</code> |
 
 **Returns:** <code>Promise&lt;{ value: boolean; }&gt;</code>
+
+**Since:** 1.0.0
 
 --------------------
 
@@ -213,12 +393,18 @@ showNotification(opts: { notification: any; }) => Promise<{ value: boolean; }>
 addListener(eventName: 'notificationOpened', listenerFunc: (notification: MarketingCloudNotification) => void) => PluginListenerHandle
 ```
 
+Called when a SFMC notification is opened.
+
+Provides the notification opened.
+
 | Param              | Type                                                                                                         |
 | ------------------ | ------------------------------------------------------------------------------------------------------------ |
 | **`eventName`**    | <code>'notificationOpened'</code>                                                                            |
 | **`listenerFunc`** | <code>(notification: <a href="#marketingcloudnotification">MarketingCloudNotification</a>) =&gt; void</code> |
 
 **Returns:** <code><a href="#pluginlistenerhandle">PluginListenerHandle</a></code>
+
+**Since:** 1.0.0
 
 --------------------
 
