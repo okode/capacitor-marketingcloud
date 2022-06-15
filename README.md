@@ -12,6 +12,9 @@ npx cap sync
 ```
 
 ## Publish
+
+Ensure you are athenticated in NPM.js using `npm login`
+
 ```bash
 npm ci
 npm run build
