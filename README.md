@@ -13,6 +13,8 @@ npx cap sync
 
 ## Publish
 ```bash
+npm ci
+npm run build
 npm version [VERSION] -m "Bumped version %s [ci skip]"
 git tag [VERSION]
 git push
