@@ -11,6 +11,16 @@ npm install @okode/capacitor-marketingcloud
 npx cap sync
 ```
 
+## Publish
+```bash
+npm version [VERSION] -m "Bumped version %s [ci skip]"
+git tag [VERSION]
+git push
+git push --tags
+npm publish --access public
+```
+
+
 ## Previous steps
 
 This plugin is built to be used along side with the official [Capacitor Push Notifications plugin](https://capacitorjs.com/docs/apis/push-notifications). Therefore, first of all, you must configure your project following the plugin instructions. This implementation approach avoid us to reimplement all logic that this official plugin already implements. For example, the developer will have to request the permission for push notifications by using Push Notifications plugin API.
