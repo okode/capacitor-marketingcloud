@@ -92,7 +92,7 @@ data class MarketingCloudSdkConfig(val appId: String,
             intent?.putExtra(NOTIFICATION_MSG_EXTRA, notificationMessage)
             intent?.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
             return PendingIntent.getActivity(context, Random().nextInt(), intent,
-                    PendingIntent.FLAG_UPDATE_CURRENT)
+                    PendingIntent.FLAG_CANCEL_CURRENT)
         }
 
         private fun getNotificationIconResId(context: Context): Int {
