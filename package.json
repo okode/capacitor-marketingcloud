@@ -1,6 +1,6 @@
 {
   "name": "@okode/capacitor-marketingcloud",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "MarketingCloud Capacitor Plugin",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
