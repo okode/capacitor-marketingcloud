@@ -45,10 +45,10 @@
     "release": "npm version patch -m \"Bumped version %s [ci skip]\" && git push && git push --tags && npm publish --access public"
   },
   "devDependencies": {
-    "@capacitor/android": "^3.5.0",
-    "@capacitor/core": "^3.5.0",
+    "@capacitor/android": "^4.0.0",
+    "@capacitor/core": "^4.0.0",
     "@capacitor/docgen": "^0.2.0",
-    "@capacitor/ios": "^3.5.0",
+    "@capacitor/android": "^4.0.0",
     "@ionic/eslint-config": "^0.3.0",
     "@ionic/prettier-config": "^2.0.0",
     "@ionic/swiftlint-config": "^1.1.2",
