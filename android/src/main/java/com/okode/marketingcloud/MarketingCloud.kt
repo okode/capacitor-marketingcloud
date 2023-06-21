@@ -23,14 +23,11 @@ class MarketingCloud {
                        accessToken: String,
                        serverUrl: String,
                        enableAnalytics: Boolean?,
-                       listener: (success: Boolean) -> Unit?) {
+                       listener: (success: Boolean) -> Unit) {
             SFMCSdk.configure(context, SFMCSdkModuleConfig.build {
                 pushModuleConfig = MarketingCloudSdkConfig(
                         appId, accessToken, serverUrl, enableAnalytics).build(context)
             }) {
-                if (listener == null) {
-                    return@configure
-                }
                 when (it.status) {
                     InitializationStatus.SUCCESS -> listener(true)
                     else -> listener(false)
@@ -45,8 +42,8 @@ class MarketingCloud {
         }
 
         fun isMarketingCloudNotification(notification: JSONObject): Boolean {
-            val notification = parseNotificationAsJSONObj(notification)
-            return if (notification != null) isMarketingCloudNotification(notification) else false
+            val parsedNotification = parseNotificationAsJSONObj(notification)
+            return if (parsedNotification != null) isMarketingCloudNotification(parsedNotification) else false
         }
 
         fun isMarketingCloudNotification(notification: Map<String, String>): Boolean {
@@ -58,16 +55,16 @@ class MarketingCloud {
         }
 
         fun showNotification(notification: JSONObject, listener: (success: Boolean) -> Unit) {
-            val notification = parseNotificationAsJSONObj(notification)
-            if (notification != null) {
-                showNotification(notification, listener)
+            val parsedNotification = parseNotificationAsJSONObj(notification)
+            if (parsedNotification != null) {
+                showNotification(parsedNotification, listener)
             } else {
                 listener(false)
             }
         }
 
         fun showNotification(notification: Map<String, String>,
-                               listener: (success: Boolean) -> Unit?) {
+                             listener: (success: Boolean) -> Unit?) {
             SFMCSdk.requestSdk {
                 it.mp { mp -> listener(mp.pushMessageManager.handleMessage(notification)) }
             }
@@ -85,7 +82,7 @@ class MarketingCloud {
                 MAPPER.readValue(notification.toString(),
                         object : TypeReference<Map<String, String>>() {})
             } catch (e: IOException) {
-                Log.e(javaClass.name, "Error parsing notification")
+                Log.e(MarketingCloud::class.java.name, "Error parsing notification")
                 null
             }
         }
