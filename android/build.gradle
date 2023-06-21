@@ -13,7 +13,6 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.0.0'
@@ -53,7 +52,6 @@ repositories {
     google()
     mavenCentral()
     maven { url 'https://salesforce-marketingcloud.github.io/MarketingCloudSDK-Android/repository' }
-    jcenter()
 }
 
 dependencies {
