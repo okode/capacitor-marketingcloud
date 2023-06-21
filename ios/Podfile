@@ -9,7 +9,7 @@ end
 
 target 'Plugin' do
   capacitor_pods
-  pod 'MarketingCloudSDK', '~> 8.0.9'
+  pod 'MarketingCloudSDK', '~> 8.0.13'
 end
 
 target 'PluginTests' do

@@ -4,7 +4,7 @@ ext {
     androidxCoreKtxVersion = project.hasProperty('androidxCoreKtxVersion') ? rootProject.ext.androidxCoreKtxVersion : '1.6.0'
     androidxJunitVersion = project.hasProperty('androidxJunitVersion') ? rootProject.ext.androidxJunitVersion : '1.1.5'
     androidxEspressoCoreVersion = project.hasProperty('androidxEspressoCoreVersion') ? rootProject.ext.androidxEspressoCoreVersion : '3.5.1'
-    marketingCloudSDKVersion = project.hasProperty('marketingCloudSDKVersion') ? rootProject.ext.marketingCloudSDKVersion : '8.0.7'
+    marketingCloudSDKVersion = project.hasProperty('marketingCloudSDKVersion') ? rootProject.ext.marketingCloudSDKVersion : '8.0.9'
     jacksonCoreVersion = project.hasProperty('jacksonCoreVersion') ? rootProject.ext.jacksonCoreVersion : '2.13.3'
 }
 
